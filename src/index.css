@@ -1,4 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Lexend");
 @import "tailwindcss";
-@tailwind base;
-@tailwind components;
 @tailwind utilities;
+
+body {
+  font-family: Lexend;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.tag {
+  @apply px-3 py-1 bg-[#F2F3F4] border border-[#C3C8CD] rounded-[24px] text-[#3C4248] text-[11px] leading-[16px];
+}
+
+.label {
+  @apply text-[#3C4248] text-[14px] leading-[20px];
+}
