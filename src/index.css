@@ -9,7 +9,40 @@ body {
 }
 
 .tag {
-  @apply px-3 py-1 bg-[#F2F3F4] border border-[#C3C8CD] rounded-[24px] text-[#3C4248] text-[11px] leading-[16px];
+  @apply  inline-flex
+          h-6 w-fit
+          text-[#3C4248] text-[11px] leading-[16px] items-center;
+}
+
+.tag-default {
+  @apply  inline-flex
+          h-6 w-fit
+          px-3 py-1
+          bg-[#F2F3F4]
+          border border-[#C3C8CD]
+          rounded-[24px]
+          text-[#3C4248] text-[11px] leading-[16px] items-center;
+
+}
+
+.tag-match {
+  @apply  inline-flex
+          h-6 w-fit
+          px-3 py-1
+          bg-[#CEF4EC]
+          border border-[#008B6E]
+          rounded-[22px]
+          text-[#008B6E] text-[11px] leading-[16px] items-center;
+}
+
+.tag-new {
+  @apply  inline-flex
+          h-6 w-fit
+          px-2.5
+          bg-[#FFE69D]
+          rounded-[22px]
+          text-[#493B13] text-[11px] leading-[16px] items-center;
+
 }
 
 .label {

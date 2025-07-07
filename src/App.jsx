@@ -1,12 +1,10 @@
 import { useState } from 'react'
 import devHunterLogo from './assets/logo.svg'
-import avatar from './assets/avatar.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 // import SubscriptionForm from './components/SubscriptionForm'
-import SubscriptionCard from './components/SubscriptionCard'
-import Button from './components/Button'
+import Card from './components/card/Card.jsx'
 
 const techLanguages = ['CSS', 'JavaScript', 'Python', 'NodeJS', 'ReactJS', 'NextJS', 'C++']
 const experiences = ['Junior', 'Mid Level', 'Senior', 'Principal', 'Architect']
@@ -53,9 +51,12 @@ function App() {
   });
   const [subscriptions, setSubscriptions] = useState(initialSubscriptions);
   const [candidates, setCandidates] = useState(initialCandidates);
+  const [matchingCandidates, setMatchingCandidates] = useState([]);
 
   const handleCandidatesGeneration = () => {
-    setCandidates((prev) => ([...prev, ...generateCandidates(10)]));
+    const candidates = generateCandidates(10);
+    console.log('generated candidates', candidates);
+    setCandidates((prev) => ([...prev, ...candidates]));
   }
 
   const handleSingleSelectionBox = (e) => {
@@ -79,7 +80,6 @@ function App() {
   const handleSalaryRange = (e) => {
     e.preventDefault();
     const { name, value} = e.target
-    console.log(name, value);
     setFormData((prev) => ({
       ...prev,
       salaryRange: {
@@ -91,8 +91,12 @@ function App() {
 
   const handleSubscriptionForm = (e) => {
     e.preventDefault();
-    console.log('Form Submitted:', formData);
     setSubscriptions((prev) => [...prev, formData])
+  }
+
+  const handleCardSelection = (cardData) => {
+    console.log('clicked')
+    setMatchingCandidates((prev) => (prev.filter((candidate) => candidate.experience === cardData.experience)));
   }
 
   return (
@@ -107,7 +111,7 @@ function App() {
             />
           </div>
 
-          <button className="flex items-center justify-center bg-[#614EFA] hover:bg-[#614EE0] rounded-[6px] px-4 py-2.5 h-10 text-white text-[16px]/5" onClick={handleCandidatesGeneration}>
+          <button className="flex items-center justify-center bg-[#614EFA] cursor-pointer rounded-[6px] px-4 py-2.5 h-10 text-white text-[16px]/5" onClick={handleCandidatesGeneration}>
             Generate New Candidates
           </button>
         </header>
@@ -185,80 +189,34 @@ function App() {
                   <h1 className="text-[18px] leading-[24px]">Your subscriptions</h1>
                   <div className="w-full flex flex-col-2 gap-5.25">
                     {subscriptions.map((sub, idx) => (
-                      <section key={idx} className="w-[334px] p-4 grid grid-row border border-[#C3C8CD] rounded-[12px] gap-2">
-                        <header>
-                          <p className="text-[9px] leading-[12px] text-[#6D7883]">Total candidates {subscriptions.length} | New candidates 30</p>
-                        </header>
-
-                        <div className="h-20 grid-rows-2 gap-1">
-                          <p className="label">Tech Languages</p>
-                          <div className="grid grid-rows-2 gap-1 mt-1">
-                            <div className="flex flex-wrap gap-2">
-                              {sub.techLanguages.map((lang, idx) => (
-                                <span key={idx} className="tag">{lang}</span>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div>
-                          <p className="label">Experience</p>
-                          <span className="tag">{sub.experience}</span>
-                        </div>
-
-                        <div>
-                          <p className="label">Salary range</p>
-                          <span className="tag">{sub.salaryRange.min} - {sub.salaryRange.max} AMD.</span>
-                        </div>
-
-                        <div>
-                          <p className="label]">Position</p>
-                          <span className="tag">{sub.position}</span>
-                        </div>
-                      </section>
+                      <Card
+                        key={idx}    
+                        type="subscription"
+                        data={{
+                          totalCandidates: subscriptions.length,
+                          newCandidates: 30,
+                          data: sub,
+                        }}
+                        onClick={handleCardSelection}
+                      />
                     ))}
                   </div>
                 </div>
               )}
           </section>
 
-          {candidates.length !== 0 && (
+          {matchingCandidates.length !== 0 && (
             <div className="grid grid-row gap-2.25">
-              <h1 className="text-[18px] leading-[24px]">Your subscriptions</h1>
-              <div className="w-full flex flex-col-2 gap-5.25">
-                {candidates.map((cand, idx) => (
-                  <section key={idx} className="w-[334px] p-4 grid grid-row border border-[#C3C8CD] rounded-[12px] gap-2">
-                    <header className="w-full h-6 flex gap-2">
-                      <img src={avatar} alt="Avatar" className="w-6 h-6" />
-                      <div className="font-[Lexend] font-weight-[500] font-style-[Mediun]">{cand.firstName} {cand.lastName} </div>
-                    </header>
-
-                    <div className="h-20 grid-rows-2 gap-1">
-                      <p className="label">Tech Languages</p>
-                      <div className="grid grid-rows-2 gap-1 mt-1">
-                        <div className="flex flex-wrap gap-2">
-                          {cand.techLanguages.map((lang, idx) => (
-                            <span key={idx} className="tag">{lang}</span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <p className="label">Experience</p>
-                      <span className="tag">{cand.experience}</span>
-                    </div>
-
-                    <div>
-                      <p className="label">Salary range</p>
-                      <span className="tag">{cand.salaryRange.min} - {cand.salaryRange.max} AMD</span>
-                    </div>
-
-                    <div>
-                      <p className="label]">Position</p>
-                      <span className="tag">{cand.position}</span>
-                    </div>
-                  </section>
+              <h1 className="text-[18px] leading-[24px]">Candidates</h1>
+              <div className="w-full flex flex-wrap flex-col-3 gap-5.25">
+                {matchingCandidates.map((cand, idx) => (
+                  <Card
+                    key={idx}    
+                    type="candidate"
+                    data={{
+                      data: cand,
+                    }}
+                  />
                 ))}
               </div>
             </div>
