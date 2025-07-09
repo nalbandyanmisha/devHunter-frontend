@@ -3,28 +3,30 @@ import devHunterLogo from './assets/logo.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
-// import SubscriptionForm from './components/SubscriptionForm'
-import Card from './components/card/Card.jsx'
+import SubscriptionsList from './components/SubscriptionsList.jsx';
+import CandidateCard from './components/card/CandidateCard.jsx';
 
 const techLanguages = ['CSS', 'JavaScript', 'Python', 'NodeJS', 'ReactJS', 'NextJS', 'C++']
 const experiences = ['Junior', 'Mid Level', 'Senior', 'Principal', 'Architect']
 const positions = ['Full Stack', 'Front End', 'Back End', 'DB Engineer']
 
+let uniqueIdCounter = 0;
 const generateCandidates = function(count) {
   const candidates = [];
   for (let i = 0; i < count; i++) {
     const techLanguagesList = getRandomElements(techLanguages, Math.floor(Math.random() * techLanguages.length) + 1);
     candidates.push({
-      "firstName": `Zarzand`,
-      "lastName": `Zarzandyan`,
-      "techLanguages": getRandomElements(techLanguages, Math.floor(Math.random() * techLanguages.length) + 1),
-      "experience": experiences[Math.floor(Math.random() * experiences.length)],
-      "position": positions[Math.floor(Math.random() * positions.length)],
-      "salaryRange": {
+      id: `cand-${Date.now()}-${uniqueIdCounter++}`,
+      firstName: `Zarzand`,
+      lastName: `Zarzandyan`,
+      techLanguages: getRandomElements(techLanguages, Math.floor(Math.random() * techLanguages.length) + 1),
+      experience: experiences[Math.floor(Math.random() * experiences.length)],
+      position: positions[Math.floor(Math.random() * positions.length)],
+      salaryRange: {
         min: Math.floor(Math.random() * (100000 - 50000 + 1)) + 50000,
         max: Math.floor(Math.random() * (200000 - 100001 + 1)) + 100001,
       },
-      "createdAt": new Date(),
+      createdAt: new Date(),
     });
   }
 
@@ -91,15 +93,27 @@ function App() {
 
   const handleSubscriptionForm = (e) => {
     e.preventDefault();
-    setSubscriptions((prev) => [...prev, formData])
+    setSubscriptions((prev) => [...prev, {
+      ...formData,
+      id: `sub-${Date.now()}-${uniqueIdCounter++}`,
+    }])
   }
 
-  const handleCardSelection = (cardData) => {
-    console.log('clicked')
-    setMatchingCandidates((prev) => (prev.filter((candidate) => candidate.experience === cardData.experience)));
-  }
+  const handleMatchingCandidates = (subscription) => {
+    const filtered = candidates.filter(candidate => {
+      const matchesTech = subscription.techLanguages.includes('Select') || subscription.techLanguages.some(lang => candidate.techLanguages.includes(lang));
+      const matchesExperience = subscription.experience === 'Select' || candidate.experience === subscription.experience;
+      const matchesPosition = subscription.position === 'Select' || candidate.position === subscription.position;
+      const matchesSalary = candidate.salaryRange.min >= Number(subscription.salaryRange.min) &&
+        candidate.salaryRange.max <= Number(subscription.salaryRange.max);
 
-  return (
+      return matchesTech && matchesExperience && matchesPosition && matchesSalary;
+    });
+
+    setMatchingCandidates(filtered);
+  };
+
+   return (
     <>
       <div className="bg-white px-10 lg:px-20 py-4">
         <header className="flex items-center justify-between h-20">
@@ -177,32 +191,10 @@ function App() {
               </form>
             </div>
 
-            {subscriptions.length === 0 ? (
-              <div className="flex flex-grow items-center justify-center">
-                <div className="flex flex-col gap-4 ">
-                  <h1 className="text-center text-[40px] leading-[48px] font-bold">No Matchings</h1>
-                  <span className="text-center text-[14px] leading-[20px] font-normal text-[#6D7883]">We will let you know when a match is found</span>
-                </div>
-              </div>
-            ) : (
-                <div className="grid grid-row gap-2.25">  
-                  <h1 className="text-[18px] leading-[24px]">Your subscriptions</h1>
-                  <div className="w-full flex flex-col-2 gap-5.25">
-                    {subscriptions.map((sub, idx) => (
-                      <Card
-                        key={idx}    
-                        type="subscription"
-                        data={{
-                          totalCandidates: subscriptions.length,
-                          newCandidates: 30,
-                          data: sub,
-                        }}
-                        onClick={handleCardSelection}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
+            <SubscriptionsList
+              data={{ subscriptions, totalCandidates: candidates.length, newCandidates: 0 }}
+              onSelect={handleMatchingCandidates}
+            />
           </section>
 
           {matchingCandidates.length !== 0 && (
@@ -210,9 +202,8 @@ function App() {
               <h1 className="text-[18px] leading-[24px]">Candidates</h1>
               <div className="w-full flex flex-wrap flex-col-3 gap-5.25">
                 {matchingCandidates.map((cand, idx) => (
-                  <Card
-                    key={idx}    
-                    type="candidate"
+                  <CandidateCard
+                    key={idx}
                     data={{
                       data: cand,
                     }}
