@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import CardContent from './CardContent';
-import union from './../../assets/union.svg';
+import { SuccessIcon } from './../../icons/index.jsx';
 
 const SubscriptionCard = ({ data: { subscription, totalCandidates, newCandidates }, isSelected, onClick }) => {
   return (
@@ -13,7 +13,7 @@ const SubscriptionCard = ({ data: { subscription, totalCandidates, newCandidates
           Total candidates: {totalCandidates} | New candidates: {newCandidates}
         </p>
         <div className={`w-6 h-6 p-1 flex items-center justify-center ${!isSelected && "invisible"}`}>
-          <img src={union} alt="Union Icon" className="w-5 h-5 text-[#008B6E]" />
+          <SuccessIcon className="w-5 h-5" />
         </div>
       </header>
       <CardContent data={subscription} />

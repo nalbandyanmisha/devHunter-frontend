@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import devHunterLogo from './assets/logo.svg'
+import { Logo } from './icons/index.jsx';
 import viteLogo from '/vite.svg'
 import './App.css'
 
@@ -42,7 +42,7 @@ const getRandomElements = (array, count) => {
 
 function App() {
   const initialCandidates = generateCandidates(10);
-  const initialSubscriptions = [] //initialCandidates.slice(0, 2);
+  const initialSubscriptions = initialCandidates.slice(0, 2);
   const [subscriptions, setSubscriptions] = useState(initialSubscriptions);
   const [candidates, setCandidates] = useState(initialCandidates);
   const [matchingCandidates, setMatchingCandidates] = useState([]);
@@ -79,11 +79,7 @@ function App() {
       <div className="bg-white px-10 lg:px-20 py-4">
         <header className="flex items-center justify-between h-20">
           <div className="flex items-center space-x-2">
-            <img
-              src={devHunterLogo}
-              alt="Dev Hunter Logo"
-              className="w-auto"
-            />
+            <Logo className="w-16 h-auto" />
           </div>
 
           <button className="flex items-center justify-center bg-[#614EFA] cursor-pointer rounded-[6px] px-4 py-2.5 h-10 text-white text-[16px]/5" onClick={handleCandidatesGeneration}>
