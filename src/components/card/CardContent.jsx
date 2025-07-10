@@ -1,6 +1,6 @@
 import React from 'react';
-import Tag from './Tag.jsx';
-import Label from './Label.jsx';
+import Tag from './../Tag.jsx';
+import Label from './../Label.jsx';
 
 const CardContent = ({ data: {techLanguages, experience, salaryRange, position } }) => {
   const fields = [

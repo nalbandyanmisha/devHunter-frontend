@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import CardContent from './CardContent';
-import { Avatar} from './../../icons/index.jsx';
+import { Avatar } from './../../icons/index.jsx';
 
 const CandidateCard = ({ data }) => {
   const [isSelected, setIsSelected] = useState(false);

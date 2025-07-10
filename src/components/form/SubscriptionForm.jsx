@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Label from './Label.jsx';
+import Label from './../Label.jsx';
 import CheckboxMenu from './CheckboxMenu.jsx';
 import MultiSelectDropDown from './MultiSelectDropdown.jsx';
 

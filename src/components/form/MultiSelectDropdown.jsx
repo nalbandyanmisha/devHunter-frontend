@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import Label from './Label.jsx';
+import Label from './../Label.jsx';
 import {CaretDown} from './../../icons';
 
 const MultiSelectDropDown = ({ children, onChange, label, placeholder = 'Select' }) => {
