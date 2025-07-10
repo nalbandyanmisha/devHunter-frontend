@@ -5,6 +5,7 @@ import './App.css'
 
 import SubscriptionsList from './components/SubscriptionsList.jsx';
 import CandidateCard from './components/card/CandidateCard.jsx';
+import SubscriptionForm from './components/card/SubscriptionForm.jsx';
 
 const techLanguages = ['CSS', 'JavaScript', 'Python', 'NodeJS', 'ReactJS', 'NextJS', 'C++']
 const experiences = ['Junior', 'Mid Level', 'Senior', 'Principal', 'Architect']
@@ -41,16 +42,7 @@ const getRandomElements = (array, count) => {
 
 function App() {
   const initialCandidates = generateCandidates(10);
-  const initialSubscriptions = initialCandidates.slice(0, 2);
-  const [formData, setFormData] = useState({
-    techLanguages: ['Select'],
-    experience: 'Select',
-    salaryRange: {
-      min: 50000,
-      max: 500000
-    },
-    position: 'Select'
-  });
+  const initialSubscriptions = [] //initialCandidates.slice(0, 2);
   const [subscriptions, setSubscriptions] = useState(initialSubscriptions);
   const [candidates, setCandidates] = useState(initialCandidates);
   const [matchingCandidates, setMatchingCandidates] = useState([]);
@@ -61,40 +53,9 @@ function App() {
     setCandidates((prev) => ([...prev, ...candidates]));
   }
 
-  const handleSingleSelectionBox = (e) => {
-    const { name, value} = e.target
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value
-    }));
-  }
-
-  const handleMultipleSelectionBox = (e) => {
-    const value = e.target.value;
-    setFormData((prev) => ({
-      ...prev,
-      techLanguages: prev.techLanguages.includes(value)
-        ? prev.techLanguages.filter((v) => v !== value)
-        : [...prev.techLanguages.filter((v) => v !== 'Select'), value],
-    }));
-  }
-
-  const handleSalaryRange = (e) => {
-    e.preventDefault();
-    const { name, value} = e.target
-    setFormData((prev) => ({
-      ...prev,
-      salaryRange: {
-        ...prev.salaryRange,
-        [name]: value,
-      },
-    }));
-  };
-
-  const handleSubscriptionForm = (e) => {
-    e.preventDefault();
+  const handleSubscriptionSubmit = (data) => {
     setSubscriptions((prev) => [...prev, {
-      ...formData,
+      ...data,
       id: `sub-${Date.now()}-${uniqueIdCounter++}`,
     }])
   }
@@ -134,63 +95,7 @@ function App() {
             <div className="text-[40px]/12 font-bold">Welcome to Dev Hunter</div>
           </section>
           <section className={`mt-10 flex flex-col ${subscriptions.length === 0 && 'md:flex-row'} lg:flex-row gap-20`}>
-            <div className="max-w-82 h-98">
-              <form className="flex flex-col gap-6" onSubmit={handleSubscriptionForm}>
-                <div>
-                  <label htmlFor="techLanguages" className="block text-sm font-medium mb-1">Tech Languages</label>
-                  <div className="relative">
-                    <select id="techLanguages" value="" className="w-full border rounded px-3 py-2 text-sm" onChange={handleMultipleSelectionBox}>
-                      {formData.techLanguages.includes('Select') && (
-                        <option value="">Select</option>
-                      )}
-                      {
-                        techLanguages.map((lang) => (
-                          <option key={lang} value={lang}>{lang}</option>
-                        ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-1">Experience</label>
-                  <select name="experience" value={formData.experience} className="w-full border rounded px-3 py-2 text-sm" onChange={handleSingleSelectionBox}>
-                    {formData.experience === 'Select' && (
-                      <option value="select">Select</option>
-                    )}
-                    {
-                      experiences.map((exp, idx) => (
-                        <option key={idx} value={exp}>{exp}</option>
-                      ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-1">Salary range</label>
-                  <div className="flex gap-2">
-                    <input name="min" type="number" placeholder="e.g. 50000" className="w-1/2 border rounded px-3 py-2 text-sm" onChange={handleSalaryRange}/>
-                    <input name="max" type="number" placeholder="e.g. 50000" className="w-1/2 border rounded px-3 py-2 text-sm" onChange={handleSalaryRange}/>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium mb-1">Position</label>
-                  <select name="position" className="w-full border rounded px-3 py-2 text-sm" onChange={handleSingleSelectionBox}>
-                    {formData.position === 'Select' && (
-                      <option value="select">Select</option>
-                    )}
-                    {
-                      positions.map((pos, idx) => (
-                        <option key={idx} value={pos}>{pos}</option>
-                      ))}
-                  </select>
-                </div>
-
-                <button type="submit" className="flex items-center justify-center bg-[#614EFA] hover:bg-[#614EE0] rounded-[6px] px-4 py-2.5 h-10 text-white text-[16px]/5">
-                  Create subscription
-                </button>
-              </form>
-            </div>
-
+            <SubscriptionForm onSubmit={handleSubscriptionSubmit}/>         
             <SubscriptionsList
               data={{ subscriptions, totalCandidates: candidates.length, newCandidates: 0 }}
               onSelect={handleMatchingCandidates}
