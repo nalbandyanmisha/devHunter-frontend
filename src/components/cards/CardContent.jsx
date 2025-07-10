@@ -2,12 +2,12 @@ import React from 'react';
 import Tag from './../Tag.jsx';
 import Label from './../Label.jsx';
 
-const CardContent = ({ data: {techLanguages, experience, salaryRange, position } }) => {
+const CardContent = ({languages, experiences, salaryRange, positions }) => {
   const fields = [
-    { label: 'Tech Languages', items: techLanguages },
-    { label: 'Experience', items: experience },
+    { label: 'Tech Languages', items: languages },
+    { label: 'Experience', items: experiences },
     { label: 'Salary range', items: `${salaryRange.min} - ${salaryRange.max} AMD` },
-    { label: 'Position', items: position },
+    { label: 'Position', items: positions },
   ];
   return (
     <div className="grid gap-2">
