@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
 import './App.css'
 
 import Header from './components/headers/Header';
@@ -6,54 +6,39 @@ import CardList from './components/cards/CardList';
 import SubscriptionCard from './features/subscriptions/components/SubscriptionCard';
 import CandidateCard from './features/candidates/components/CandidateCard';
 import SubscriptionForm from './features/subscriptions/components/SubscriptionForm';
-
-const techLanguages = ['CSS', 'JavaScript', 'Python', 'NodeJS', 'ReactJS', 'NextJS', 'C++']
-const experiences = ['Junior', 'Mid Level', 'Senior', 'Principal', 'Architect']
-const positions = ['Full Stack', 'Front End', 'Back End', 'DB Engineer']
+import { useSubscriptions } from './features/subscriptions/hooks/useSubscriptions';
+import { useCandidates } from './features/candidates/hooks/useCandidates';
+import { getMatchingCandidates } from './features/matching/utils';
 
 function App() {
-  const initialCandidates = [] //generateCandidates(10);
-  const initialSubscriptions = [] // initialCandidates.slice(0, 2);
+  const { candidates, generateMoreCandidates } = useCandidates();
+  const {
+    subscriptions,
+    addSubscription,
+    selectedId,
+    selectSubscription,
+    selectedSubscription,
+  } = useSubscriptions();
+  const matchingCandidates = getMatchingCandidates(candidates, selectedSubscription);
 
-  const [selectedSubId, setSelectedSubId] = useState(null);
-  const [subscriptions, setSubscriptions] = useState(initialSubscriptions);
-  const [candidates, setCandidates] = useState(initialCandidates);
-  const [matchingCandidates, setMatchingCandidates] = useState([]);
+  useEffect(() => {
+    // console.log('All Candidates:', candidates);
+  }, [candidates]);
 
-  const handleGeneratedCandidates = (newCandidates) => {
-    setCandidates((prev) => ([...prev, ...newCandidates]));
-  }
-
-  const handleSubscriptionSubmit = (newSubscription) => {
-    console.log('New subscription:', newSubscription);
-    setSubscriptions((prev) => ([...prev, newSubscription]));
-
-  }
-
-  const handleMatchingCandidates = (subscription) => {
-    const filtered = candidates.filter(candidate => {
-      const matchesTech = subscription.techLanguages.includes('Select') || subscription.techLanguages.some(lang => candidate.techLanguages.includes(lang));
-      const matchesExperience = subscription.experience === 'Select' || candidate.experience === subscription.experience;
-      const matchesPosition = subscription.position === 'Select' || candidate.position === subscription.position;
-      const matchesSalary = candidate.salaryRange.min >= Number(subscription.salaryRange.min) &&
-        candidate.salaryRange.max <= Number(subscription.salaryRange.max);
-
-      return matchesTech && matchesExperience && matchesPosition && matchesSalary;
-    });
-
-    setMatchingCandidates(filtered);
-  };
+   useEffect(() => {
+    console.log('All matchingCandidates:', matchingCandidates);
+  }, [matchingCandidates]);
 
    return (
     <>
       <div className="bg-white px-10 lg:px-20 py-4">
-        <Header onGenerateCandidates={handleGeneratedCandidates}></Header>
+        <Header onGenerateCandidates={generateMoreCandidates} />
         <main className="mt-5">
           <section>
             <div className="text-[40px]/12 font-bold">Welcome to Dev Hunter</div>
           </section>
           <section className={`mt-10 flex flex-col ${subscriptions.length === 0 && 'md:flex-row'} lg:flex-row gap-20`}>
-            <SubscriptionForm onSubmit={handleSubscriptionSubmit}/>
+            <SubscriptionForm onSubmit={addSubscription}/>
             {subscriptions.length === 0 ? (
               <div className="flex flex-grow items-center justify-center">
                 <div className="flex flex-col gap-4">
@@ -67,8 +52,8 @@ function App() {
                   <CardList
                     items={subscriptions}
                     selectable
-                    selectedId={selectedSubId}
-                    onSelect={setSelectedSubId}
+                    selectedId={selectedId}
+                    onSelect={selectSubscription}
                     renderItem={(item, props) => (
                       <SubscriptionCard key={item.id} subscription={item} {...props} />
                     )}
@@ -78,11 +63,11 @@ function App() {
 
           </section>
 
-          {selectedSubId && (
+          {selectedId && (
             <section className="flex flex-col w-320 h-fill gap-2">
               <p className="text-[18px] leading-[24px]">Candidates</p>
               <CardList
-                items={candidates}
+                items={matchingCandidates}
                 renderItem={(candidate) => (
                   <CandidateCard key={candidate.id} candidate={candidate} />
                 )}

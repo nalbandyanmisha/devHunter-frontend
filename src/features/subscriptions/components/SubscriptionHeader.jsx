@@ -1,4 +1,4 @@
-import { SuccessIcon } from './../../../icons/index.jsx';
+import { SuccessIcon } from '@/icons/index.jsx';
 
 const SubscriptionHeader = ({ totalCandidates, newCandidates, isSelected }) => {
   return (

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import FieldLabel from './../ui/FieldLabel.jsx';
-import {CaretDown} from './../../icons';
+import {CaretDown} from '@/icons';
 
 const MultiSelectDropDown = ({ children, onChange, label, placeholder = 'Select' }) => {
   const [isOpen, setIsOpen] = useState(false);

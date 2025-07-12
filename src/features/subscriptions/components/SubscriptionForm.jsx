@@ -26,7 +26,6 @@ const SubscriptionForm = function({ onSubmit }) {
       experiences: values.experiences,
       positions: values.positions,
       salaryRange: values.salaryRange,
-      id: `sub-${Date.now()}-${uniqueIdCounter++}`,
     });
 
 

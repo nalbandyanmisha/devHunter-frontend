@@ -1,11 +1,13 @@
-import { Logo } from './../../icons/index.jsx';
+import { Logo } from '@/icons/index.jsx';
+import { useCandidates } from '@/features/candidates/hooks/useCandidates';
+
 
 let uniqueIdCounter = 0;
 
 const Header = ({ onGenerateCandidates }) => {
+
   const handleClick = () => {
-    const newCandidates = generateCandidates(10, techLanguages, experiences, positions);
-    onGenerateCandidates(newCandidates);
+    onGenerateCandidates();
   };
 
   return (

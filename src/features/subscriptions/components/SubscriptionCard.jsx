@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 import SubscriptionHeader from './SubscriptionHeader.jsx';
-import CardContent from './../../../components/cards/CardContent';
-import Card from './../../../components/cards/Card';
+import CardContent from '@/components/cards/CardContent';
+import Card from '@/components/cards/Card';
 
 const SubscriptionCard = ({ subscription, totalCandidates, newCandidates, isSelected, onSelect }) => {
   return (
