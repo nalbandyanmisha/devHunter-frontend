@@ -1,20 +1,35 @@
 import React from 'react';
-import Tag from './../Tag.jsx';
-import Label from './../Label.jsx';
 
-const CardContent = ({languages, experiences, salaryRange, positions }) => {
-  const fields = [
-    { label: 'Tech Languages', items: languages },
-    { label: 'Experience', items: experiences },
-    { label: 'Salary range', items: `${salaryRange.min} - ${salaryRange.max} AMD` },
-    { label: 'Position', items: positions },
-  ];
+import Tag from './../ui/Tag.jsx';
+import FieldLabel from './../ui/FieldLabel.jsx';
+import { fieldDefinitions, fieldData } from '@/shared/data/fields.js';
+
+function prepareCardFields(values) {
+  return Object.entries(fieldData).map(([key, field]) => {
+    let items = values[key];
+
+    // If salaryRange (object), format it nicely
+    if (key === 'salaryRange' && items && typeof items === 'object') {
+      items = `${items.min} - ${items.max} AMD`;
+    }
+
+    return {
+      label: field.label,
+      items,
+    };
+  });
+}
+
+const CardContent = (values) => {
+
+  const fields = prepareCardFields(values);
+
   return (
     <div className="grid gap-2">
       {fields.map((field, idx) => (
         Array.isArray(field.items) ? (
           <div className="h-20 grid grid-rows-[20px_1fr] gap-1" key={idx}>
-            <Label>{field.label}</Label>
+            <FieldLabel>{field.label}</FieldLabel>
             <div className="grid grid-rows-2 gap-2">
               <div className="flex flex-wrap gap-1.5">
                 {field.items.map((item, itemIdx) => (
@@ -24,11 +39,11 @@ const CardContent = ({languages, experiences, salaryRange, positions }) => {
             </div>
           </div>
         ) : (
-          <div className="grid gap-1" key={idx}>
-            <Label>{field.label}</Label>
-            <Tag variant="default">{field.items}</Tag>
-          </div>
-        )
+            <div className="grid gap-1" key={idx}>
+              <FieldLabel>{field.label}</FieldLabel>
+              <Tag variant="default">{field.items}</Tag>
+            </div>
+          )
       ))}
     </div>
   );

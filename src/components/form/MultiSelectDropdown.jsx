@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import Label from './../Label.jsx';
+import FieldLabel from './../ui/FieldLabel.jsx';
 import {CaretDown} from './../../icons';
 
 const MultiSelectDropDown = ({ children, onChange, label, placeholder = 'Select' }) => {
@@ -20,7 +20,7 @@ const MultiSelectDropDown = ({ children, onChange, label, placeholder = 'Select'
 
   return (
     <div className="w-81.5 relative flex flex-col gap-1">
-      <Label>{label}</Label>
+      <FieldLabel>{label}</FieldLabel>
       <button
         type="button"
         className="flex items-center justify-between w-full h-auto border border-[#C3C8CD] rounded-[6px] px-3 py-2.5"

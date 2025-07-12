@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-import SubscriptionHeader from './../headers/SubscriptionHeader.jsx';
-import CardContent from './CardContent';
-import Card from './Card';
+import SubscriptionHeader from './SubscriptionHeader.jsx';
+import CardContent from './../../../components/cards/CardContent';
+import Card from './../../../components/cards/Card';
 
 const SubscriptionCard = ({ subscription, totalCandidates, newCandidates, isSelected, onSelect }) => {
   return (
@@ -15,10 +15,10 @@ const SubscriptionCard = ({ subscription, totalCandidates, newCandidates, isSele
     >
       <SubscriptionHeader totalCandidates={totalCandidates} newCandidates={newCandidates} isSelected={isSelected}/>
       <CardContent
-        languages={subscription.techLanguages}
-        experiences={subscription.experience}
+        languages={subscription.languages}
+        experiences={subscription.experiences}
         salaryRange={subscription.salaryRange}
-        positions={subscription.position}
+        positions={subscription.positions}
       />
     </Card>
   );

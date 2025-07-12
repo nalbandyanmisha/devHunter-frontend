@@ -1,32 +1,33 @@
 import { useState } from 'react'
-import { Logo } from './icons/index.jsx';
 import './App.css'
 
-import CardList from './components/lists/CardList';
-import SubscriptionCard from './components/cards/SubscriptionCard';
-import CandidateCard from './components/cards/CandidateCard';
-import SubscriptionForm from './components/form/SubscriptionForm.jsx';
+import Header from './components/headers/Header';
+import CardList from './components/cards/CardList';
+import SubscriptionCard from './features/subscriptions/components/SubscriptionCard';
+import CandidateCard from './features/candidates/components/CandidateCard';
+import SubscriptionForm from './features/subscriptions/components/SubscriptionForm';
+
+const techLanguages = ['CSS', 'JavaScript', 'Python', 'NodeJS', 'ReactJS', 'NextJS', 'C++']
+const experiences = ['Junior', 'Mid Level', 'Senior', 'Principal', 'Architect']
+const positions = ['Full Stack', 'Front End', 'Back End', 'DB Engineer']
 
 function App() {
-  const initialCandidates = generateCandidates(10);
-  const initialSubscriptions = initialCandidates.slice(0, 2);
+  const initialCandidates = [] //generateCandidates(10);
+  const initialSubscriptions = [] // initialCandidates.slice(0, 2);
 
   const [selectedSubId, setSelectedSubId] = useState(null);
   const [subscriptions, setSubscriptions] = useState(initialSubscriptions);
   const [candidates, setCandidates] = useState(initialCandidates);
   const [matchingCandidates, setMatchingCandidates] = useState([]);
 
-  const handleCandidatesGeneration = () => {
-    const candidates = generateCandidates(10);
-    console.log('generated candidates', candidates);
-    setCandidates((prev) => ([...prev, ...candidates]));
+  const handleGeneratedCandidates = (newCandidates) => {
+    setCandidates((prev) => ([...prev, ...newCandidates]));
   }
 
-  const handleSubscriptionSubmit = (data) => {
-    setSubscriptions((prev) => [...prev, {
-      ...data,
-      id: `sub-${Date.now()}-${uniqueIdCounter++}`,
-    }])
+  const handleSubscriptionSubmit = (newSubscription) => {
+    console.log('New subscription:', newSubscription);
+    setSubscriptions((prev) => ([...prev, newSubscription]));
+
   }
 
   const handleMatchingCandidates = (subscription) => {
@@ -46,15 +47,7 @@ function App() {
    return (
     <>
       <div className="bg-white px-10 lg:px-20 py-4">
-        <header className="flex items-center justify-between h-20">
-          <div className="flex items-center space-x-2">
-            <Logo className="w-16 h-auto" />
-          </div>
-
-          <button className="flex items-center justify-center bg-[#614EFA] cursor-pointer rounded-[6px] px-4 py-2.5 h-10 text-white text-[16px]/5" onClick={handleCandidatesGeneration}>
-            Generate New Candidates
-          </button>
-        </header>
+        <Header onGenerateCandidates={handleGeneratedCandidates}></Header>
         <main className="mt-5">
           <section>
             <div className="text-[40px]/12 font-bold">Welcome to Dev Hunter</div>
@@ -70,7 +63,7 @@ function App() {
               </div>
             ) : (
                 <div className="grid grid-row gap-2.25">
-                  <h1 className="text-[18px] leading-[24px]">Your subscriptions</h1>
+                  <p className="text-[18px] leading-[24px]">Your subscriptions</p>
                   <CardList
                     items={subscriptions}
                     selectable
@@ -86,50 +79,21 @@ function App() {
           </section>
 
           {selectedSubId && (
-            <CardList
-              items={candidates}
-              renderItem={(candidate) => (
-                <CandidateCard key={candidate.id} candidate={candidate} />
-              )}
-            />
+            <section className="flex flex-col w-320 h-fill gap-2">
+              <p className="text-[18px] leading-[24px]">Candidates</p>
+              <CardList
+                items={candidates}
+                renderItem={(candidate) => (
+                  <CandidateCard key={candidate.id} candidate={candidate} />
+                )}
+              />
+            </section>
+
           )}
         </main>
       </div>
     </>
   )
 }
-
-const techLanguages = ['CSS', 'JavaScript', 'Python', 'NodeJS', 'ReactJS', 'NextJS', 'C++']
-const experiences = ['Junior', 'Mid Level', 'Senior', 'Principal', 'Architect']
-const positions = ['Full Stack', 'Front End', 'Back End', 'DB Engineer']
-
-let uniqueIdCounter = 0;
-const generateCandidates = function(count) {
-  const candidates = [];
-  for (let i = 0; i < count; i++) {
-    const techLanguagesList = getRandomElements(techLanguages, Math.floor(Math.random() * techLanguages.length) + 1);
-    candidates.push({
-      id: `cand-${Date.now()}-${uniqueIdCounter++}`,
-      firstName: `Zarzand`,
-      lastName: `Zarzandyan`,
-      techLanguages: getRandomElements(techLanguages, Math.floor(Math.random() * techLanguages.length) + 1),
-      experience: experiences[Math.floor(Math.random() * experiences.length)],
-      position: positions[Math.floor(Math.random() * positions.length)],
-      salaryRange: {
-        min: Math.floor(Math.random() * (100000 - 50000 + 1)) + 50000,
-        max: Math.floor(Math.random() * (200000 - 100001 + 1)) + 100001,
-      },
-      createdAt: new Date(),
-    });
-  }
-
-  return candidates;
-
-}
-
-const getRandomElements = (array, count) => {
-  const shuffled = array.sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, count);
-};
 
 export default App

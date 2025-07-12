@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-import CandidateHeader from './../headers/CandidateHeader.jsx';
-import CardContent from './CardContent';
-import Card from './Card';
+import CandidateHeader from './CandidateHeader.jsx';
+import CardContent from './../../../components/cards/CardContent';
+import Card from './../../../components/cards/Card';
 
 const CandidateCard = ({ candidate}) => {
   return (

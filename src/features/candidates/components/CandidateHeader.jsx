@@ -1,4 +1,4 @@
-import { Avatar } from './../../icons/index.jsx';
+import { Avatar } from './../../../icons/index.jsx';
 
 const CandidateHeader = ({ firstName, lastName }) => {
   return (
