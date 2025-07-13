@@ -34,7 +34,7 @@ const SubscriptionForm = function({ onSubmit }) {
   };
 
   return (
-    <form className="size-auto flex flex-col gap-6" onSubmit={handleSubmit}>
+    <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
       <MultiSelectDropDown label={languages.label}>
         <CheckboxMenu options={languages.options} selected={values.languages} onChange={setters.setLanguages}/>
       </MultiSelectDropDown>

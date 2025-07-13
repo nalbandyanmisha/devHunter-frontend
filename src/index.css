@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Lexend");
-@import "tailwindcss";
-@tailwind utilities;
+
+@import "tailwind/preflight";
+@import "tailwind/utilities";
 
 body {
   font-family: Lexend;

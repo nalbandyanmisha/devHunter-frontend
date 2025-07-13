@@ -1,8 +1,7 @@
 import { Logo } from '@/icons/index.jsx';
+import Button from '@/components/ui/Button.jsx';
 import { useCandidates } from '@/features/candidates/hooks/useCandidates';
 
-
-let uniqueIdCounter = 0;
 
 const Header = ({ onGenerateCandidates }) => {
 
@@ -11,13 +10,13 @@ const Header = ({ onGenerateCandidates }) => {
   };
 
   return (
-    <header className="flex items-center justify-between h-20">
-      <div className="flex items-center space-x-2">
+    <header className="w-full h-fit">
+      <div className="max-w-360 mx-auto h-20 px-20 py-4 flex items-center justify-between">
         <Logo className="w-16 h-auto" />
+        <Button onClick={handleClick}>
+          Generate New Candidates
+        </Button>
       </div>
-      <button className="flex items-center justify-center bg-[#614EFA] cursor-pointer rounded-[6px] px-4 py-2.5 h-10 text-white text-[16px]/5" onClick={handleClick}>
-        Generate New Candidates
-      </button>
     </header>
 
   );
