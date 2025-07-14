@@ -4,10 +4,10 @@ import MultiSelectDropDown from '@/components/form/MultiSelectDropdown.jsx';
 import FieldLabel from '@/components/ui/FieldLabel.jsx';
 
 import { useSubscriptionForm } from '@/features/subscriptions/hooks/useSubscriptionForm.js';
-
-let uniqueIdCounter = 0;
+import { useSubscriptionContext } from '../context/SubscriptionContext';
 
 const SubscriptionForm = function({ onSubmit }) {
+  const { addSubscription } = useSubscriptionContext();
   const {
     values,
     setters,
@@ -21,7 +21,7 @@ const SubscriptionForm = function({ onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    onSubmit({
+    addSubscription({
       languages: values.languages,
       experiences: values.experiences,
       positions: values.positions,

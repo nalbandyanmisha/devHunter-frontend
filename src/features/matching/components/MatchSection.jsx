@@ -1,15 +1,12 @@
-
 import { useState, useMemo } from 'react';
 import { getMatchingCandidates } from '../utils';
-import SubscriptionSection from '@/features/subscriptions/components/SubscriptionSection';
+import { useCandidatesContext } from '@/features/candidates/context/CandidatesContext';
+import SubscriptionSectionWrapper from '@/features/subscriptions/components/SubscriptionSectionWrapper';
 import CandidateSection from '@/features/candidates/components/CandidateSection';
 
-export default function MatchSection({ subscriptions, candidates, onAdd }) {
-  const [selectedId, setSelectedId] = useState(null);
-
-  const selectedSubscription = useMemo(() => {
-    return subscriptions.find((sub) => sub.id === selectedId);
-  }, [subscriptions, selectedId]);
+export default function MatchSection() {
+  const { candidates } = useCandidatesContext();
+  const [selectedSubscription, setSelectedSubscription] = useState(null);
 
   const matchingCandidates = useMemo(() => {
     return getMatchingCandidates(candidates, selectedSubscription);
@@ -17,14 +14,12 @@ export default function MatchSection({ subscriptions, candidates, onAdd }) {
 
   return (
     <section className="flex flex-col gap-16">
-        <SubscriptionSection
-          subscriptions={subscriptions}
-        selectedId={selectedId}
-        onSelect={setSelectedId}
-        onAdd={onAdd}
-      />
-      {selectedId && (
-        <CandidateSection candidates={matchingCandidates} />
+      <SubscriptionSectionWrapper onSubscriptionSelect={setSelectedSubscription} />
+      {selectedSubscription && (
+        <CandidateSection
+          candidates={matchingCandidates}
+          selectedSubscription={selectedSubscription}
+        />
       )}
     </section>
   );

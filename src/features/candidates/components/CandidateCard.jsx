@@ -4,7 +4,7 @@ import CandidateHeader from './CandidateHeader.jsx';
 import CardContent from '@/components/cards/CardContent';
 import Card from '@/components/cards/Card';
 
-const CandidateCard = ({ candidate}) => {
+const CandidateCard = ({ candidate, selectedSubscription}) => {
   return (
     <Card> 
       <CandidateHeader firstName={candidate.firstName} lastName={candidate.lastName}></CandidateHeader>
