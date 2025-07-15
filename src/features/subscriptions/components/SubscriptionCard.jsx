@@ -4,21 +4,21 @@ import SubscriptionHeader from './SubscriptionHeader.jsx';
 import CardContent from '@/components/cards/CardContent';
 import Card from '@/components/cards/Card';
 
-const SubscriptionCard = ({ subscription, totalCandidates, newCandidates, selected, onClick }) => {
+const SubscriptionCard = ({ subscription, selected, onClick }) => {
   return (
     <Card
       header={'subscription'}
-      totalCandidates={totalCandidates}
-      newCandidates={newCandidates}
       isSelected={selected}
       onClick={onClick}
     >
-      <SubscriptionHeader totalCandidates={totalCandidates} newCandidates={newCandidates} isSelected={selected}/>
+      <SubscriptionHeader isSelected={selected}/>
       <CardContent
-        languages={subscription.languages}
-        experiences={subscription.experiences}
-        salaryRange={subscription.salaryRange}
-        positions={subscription.positions}
+        items={{
+          languages: subscription.languages,
+          experiences: subscription.experiences,
+          salaryRange: subscription.salaryRange,
+          positions: subscription.positions,
+        }}
       />
     </Card>
   );

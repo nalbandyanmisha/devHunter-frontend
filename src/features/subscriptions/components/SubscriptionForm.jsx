@@ -2,11 +2,12 @@ import { useState } from 'react';
 import CheckboxMenu from '@/components/form/CheckboxMenu.jsx';
 import MultiSelectDropDown from '@/components/form/MultiSelectDropdown.jsx';
 import FieldLabel from '@/components/ui/FieldLabel.jsx';
+import Button from '@/components/ui/Button.jsx';
 
 import { useSubscriptionForm } from '@/features/subscriptions/hooks/useSubscriptionForm.js';
 import { useSubscriptionContext } from '../context/SubscriptionContext';
 
-const SubscriptionForm = function({ onSubmit }) {
+const SubscriptionForm = function() {
   const { addSubscription } = useSubscriptionContext();
   const {
     values,
@@ -27,8 +28,6 @@ const SubscriptionForm = function({ onSubmit }) {
       positions: values.positions,
       salaryRange: values.salaryRange,
     });
-
-
 
     resetForm();
   };
@@ -70,8 +69,7 @@ const SubscriptionForm = function({ onSubmit }) {
         <CheckboxMenu options={positions.options} selected={values.positions} onChange={setters.setPositions} />
       </MultiSelectDropDown>
 
-      <button className="flex items-center justify-center bg-[#614EFA] hover:bg-[#614EE0] rounded-[6px] px-4 py-2.5 text-white text-[16px] leading-5 w-fit">Create Subscription</button>
-      
+      <Button >Create Subscription</Button>
     </form>
   );
 
