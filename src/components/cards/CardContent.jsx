@@ -20,7 +20,6 @@ function prepareCardFields(fields) {
 
 export default function CardContent({ items, matchedTags = {} }) {
   const fields = prepareCardFields(items);
-  console.log("matchedTags", matchedTags);
 
   return (
     <div className="grid gap-2">

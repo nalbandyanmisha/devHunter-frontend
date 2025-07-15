@@ -1,13 +1,13 @@
 import { useState, useEffect, useMemo } from 'react';
 import { getMatchingCandidates } from '../utils';
 import { useMatchingContext } from '@/features/matching/context/MatchingContext';
-import { useCandidatesContext } from '@/features/candidates/context/CandidatesContext';
+import { useCandidateContext } from '@/features/candidates/context/CandidateContext';
 import { MatchingProvider } from '../context/MatchingProvider';
 import SubscriptionSectionWrapper from '@/features/subscriptions/components/SubscriptionSectionWrapper';
 import CandidateSection from '@/features/candidates/components/CandidateSection';
 
 export default function MatchSection() {
-  const { candidates } = useCandidatesContext();
+  const { candidates } = useCandidateContext();
   const [selectedSubscription, setSelectedSubscription] = useState(null);
 
   const matchedCandidates = useMemo(() => {

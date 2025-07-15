@@ -1,10 +1,10 @@
 import { Logo } from '@/icons/index.jsx';
 import Button from '@/components/ui/Button.jsx';
-import { useCandidatesContext } from '@/features/candidates/context/CandidatesContext';
+import { useCandidateContext } from '@/features/candidates/context/CandidateContext';
 
 
 const Header = () => {
-  const { generateMoreCandidates } = useCandidatesContext();
+  const { generateMoreCandidates } = useCandidateContext();
 
   return (
     <header className="w-full h-fit">
