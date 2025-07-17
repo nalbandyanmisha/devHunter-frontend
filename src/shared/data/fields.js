@@ -11,14 +11,14 @@ export const fieldDefinitions = [
     label: 'Experience',
     options: ['Junior', 'Mid Level', 'Senior', 'Principal', 'Architect'],
     default: [],
-    placeholder: 'Choose desired experiences level',
+    placeholder: 'Choose desired experience level',
   },
   {
     key: 'positions',
     label: 'Position',
     options: ['Full Stack', 'Front End', 'Back End', 'DB Engineer'],
     default: [],
-    placeholder: 'Select desired positions',
+    placeholder: 'Select desired position',
   },
   {
     key: 'salaryRange',
@@ -28,7 +28,9 @@ export const fieldDefinitions = [
   },
 ];
 
-export const fieldData = fieldDefinitions.reduce((acc, field) => {
+export const fieldOrder = ['languages', 'experiences', 'salaryRange', 'positions'];
+
+export const fieldMetadata = fieldDefinitions.reduce((acc, field) => {
   acc[field.key] = field;
   return acc;
 }, {});

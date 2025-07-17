@@ -1,6 +1,4 @@
-import { useEffect } from 'react'
 import './App.css'
-
 import { CandidateProvider } from '@/features/candidates/context/CandidateContext';
 import Header from '@/components/headers/Header'
 import DevHunterPage from '@/pages/devHunter/DevHunterPage';

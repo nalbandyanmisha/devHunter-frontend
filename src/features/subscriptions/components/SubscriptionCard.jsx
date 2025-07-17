@@ -7,19 +7,20 @@ import Card from '@/components/cards/Card';
 const SubscriptionCard = ({ subscription, selected, onClick }) => {
   return (
     <Card
-      header={'subscription'}
       isSelected={selected}
       onClick={onClick}
     >
-      <SubscriptionHeader isSelected={selected}/>
-      <CardContent
-        items={{
-          languages: subscription.languages,
-          experiences: subscription.experiences,
-          salaryRange: subscription.salaryRange,
-          positions: subscription.positions,
-        }}
-      />
+      <div className="grid grid-row gap-2">
+        <SubscriptionHeader />
+        <CardContent
+          fieldValues={{
+            languages: subscription.languages,
+            experiences: subscription.experiences,
+            salaryRange: subscription.salaryRange,
+            positions: subscription.positions,
+          }}
+        />
+      </div>
     </Card>
   );
 };

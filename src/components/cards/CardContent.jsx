@@ -1,55 +1,75 @@
+import { useRef, useLayoutEffect, useState } from 'react';
 import Tag from './../ui/Tag.jsx';
-import FieldLabel from './../ui/FieldLabel.jsx';
-import { fieldData } from '@/shared/data/fields.js';
+import Label from './../ui/Label.jsx';
+import { fieldMetadata, fieldOrder } from '@/shared/data/fields.js';
 
-function prepareCardFields(fields) {
-  return Object.entries(fieldData).map(([key, field]) => {
-    let items = fields[key];
+function combineFieldData(metadata, fieldOrder, fieldValues, matchedTags = {}) {
+  return fieldOrder.map((key) => {
+    const label = metadata[key]?.label ?? key;
+    const value = fieldValues[key];
+    const match = matchedTags[key];
 
-    if (key === 'salaryRange' && items && typeof items === 'object') {
-      items = `${items.min} - ${items.max} AMD`;
+    if (key === 'salaryRange') {
+      const min = value?.min ?? 0;
+      const max = value?.max ?? 0;
+      return {
+        key,
+        label,
+        values: [`${min} - ${max} AMD`],
+        variant: match === true ? 'match' : 'default',
+      };
     }
+    const values = value ?? [];
+    const isMatch = match?.includes?.(values[0]) || values.some(v => match?.includes?.(v));
 
     return {
-      key,      // keep the key here for matching
-      label: field.label,
-      items,
+      key,
+      label,
+      values,
+      variant: isMatch ? 'match' : 'default',
     };
   });
 }
 
-export default function CardContent({ items, matchedTags = {} }) {
-  const fields = prepareCardFields(items);
+export default function CardContent({ fieldValues, matchedTags = {} }) {
+  const fields = combineFieldData(fieldMetadata, fieldOrder, fieldValues, matchedTags);
+  const containerRefs = useRef([]);
+  const [maxHeights, setMaxHeights] = useState([]);
+
+  useLayoutEffect(() => {
+    const heights = containerRefs.current.map(ref => ref?.offsetHeight || 0);
+    const newHeights = heights.map((_, idx) => {
+      const all = document.querySelectorAll(`[data-field-idx="${idx}"]`);
+      return Math.max(...Array.from(all).map(el => el.offsetHeight));
+    });
+    setMaxHeights(newHeights);
+  }, []);
 
   return (
     <div className="grid gap-2">
-      {fields.map(({ key, label, items }, idx) => (
-        Array.isArray(items) ? (
-          <div className="h-20 grid grid-rows-[20px_1fr] gap-1" key={idx}>
-            <FieldLabel>{label}</FieldLabel>
-            <div className="grid grid-rows-2 gap-2">
-              <div className="flex flex-wrap gap-1.5">
-                {items.map((tag, tagIdx) => {
-                  // matchedTags[key] is expected to be an array of matched tags for this field
-                  const isMatched = Array.isArray(matchedTags[key]) && matchedTags[key].includes(tag);
-                  return (
-                    <Tag variant={isMatched ? 'match' : 'default'} key={tagIdx}>{tag}</Tag>
-                  );
-                })}
-              </div>
+      {fields.map(({ key, label, values, variant }, idx) => {
+        const heightStyle = maxHeights[idx] ? { height: maxHeights[idx] } : {};
+        return (
+          <div
+            className="grid gap-1"
+            key={idx}
+          >
+            <Label>{label}</Label>
+            <div
+              className="flex flex-wrap gap-2"
+              ref={el => (containerRefs.current[idx] = el)}
+              data-field-idx={idx}
+              style={heightStyle}
+            >
+              {values.map((value, tagIdx) => (
+                <Tag variant={variant} key={tagIdx}>
+                  {value}
+                </Tag>
+              ))}
             </div>
           </div>
-        ) : (
-          <div className="grid gap-1" key={idx}>
-            <FieldLabel>{label}</FieldLabel>
-            {key === 'salaryRange' && matchedTags[key] === true ? (
-              <Tag variant="match">{items}</Tag>
-            ) : (
-              <Tag variant="default">{items}</Tag>
-            )}
-          </div>
-        )
-      ))}
+        );
+      })}
     </div>
   );
 }

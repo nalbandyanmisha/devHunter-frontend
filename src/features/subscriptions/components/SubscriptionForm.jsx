@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import CheckboxMenu from '@/components/form/CheckboxMenu.jsx';
 import MultiSelectDropDown from '@/components/form/MultiSelectDropdown.jsx';
-import FieldLabel from '@/components/ui/FieldLabel.jsx';
+import Label from '@/components/ui/Label.jsx';
 import Button from '@/components/ui/Button.jsx';
 
 import { useSubscriptionForm } from '@/features/subscriptions/hooks/useSubscriptionForm.js';
@@ -43,7 +43,7 @@ const SubscriptionForm = function() {
       </MultiSelectDropDown>
 
       <div className="w-81.5 flex flex-col gap-1">
-        <FieldLabel>{salaryRange.label}</FieldLabel>
+        <Label>{salaryRange.label}</Label>
         <div className="flex gap-1 items-center">
           <input
             name="min"
@@ -53,7 +53,7 @@ const SubscriptionForm = function() {
             onChange={(e) => updateField('salaryRange.min', Number(e.target.value))}
             className="w-full h-auto border border-[#C3C8CD] rounded-[6px] px-3 py-2.5"
           />
-          <FieldLabel>-</FieldLabel>
+          <Label>-</Label>
           <input
             name="max"
             type="number"

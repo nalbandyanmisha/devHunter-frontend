@@ -1,4 +1,4 @@
-import { fieldData } from '@/shared/data/fields';
+import { fieldMetadata } from '@/shared/data/fields';
 
 let uniqueIdCounter = 0;
 
@@ -9,9 +9,9 @@ const getRandomElements = (array, count) => {
 
 export const generateCandidates = function(count = 10,
   {
-    languages = fieldData.languages.options,
-    experiences = fieldData.experiences.options,
-    positions = fieldData.positions.options,
+    languages = fieldMetadata.languages.options,
+    experiences = fieldMetadata.experiences.options,
+    positions = fieldMetadata.positions.options,
   } = {}) {
     const candidates = [];
 

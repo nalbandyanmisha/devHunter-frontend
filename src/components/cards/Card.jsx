@@ -1,6 +1,13 @@
-const Card = ({ header, firstName = '', lastName='', totalCandidates = 0, newCandidates = 0, isSelected, onClick, children }) => {
+import { SuccessIcon } from '@/icons/index.jsx';
+
+const Card = ({ isSelected, onClick, children }) => {
   return (
-    <section className={`w-[334px] p-4 grid grid-row border ${isSelected ? ("border-[#008B6E] bg-[#E8FAF6]") : ("border-[#C3C8CD]")} rounded-[12px] gap-2 cursor-pointer`} onClick={onClick}>
+    <section className={`relative cursor-pointer ${isSelected ? "card-selected" : "card-default"}`} onClick={onClick}>
+      {isSelected && (
+        <div className="absolute top-3 right-3 flex items-center justify-center">
+          <SuccessIcon />
+        </div>
+      )}
       {children}
     </section>
   );

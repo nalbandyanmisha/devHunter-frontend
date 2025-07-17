@@ -9,17 +9,19 @@ const CandidateCard = ({ candidate }) => {
   const isNew = matchedTags[candidate.id]?.isNew;
 
   return (
-    <Card> 
-      <CandidateHeader firstName={candidate.firstName} lastName={candidate.lastName} isNew={isNew}></CandidateHeader>
-      <CardContent
-        items={{
-          languages: candidate.languages,
-          experiences: candidate.experiences,
-          salaryRange: candidate.salaryRange,
-          positions: candidate.positions,
-        }}
-        matchedTags={matchedTags[candidate.id]}
-      />
+    <Card>
+      <div className="grid grid-row gap-4">
+        <CandidateHeader firstName={candidate.firstName} lastName={candidate.lastName} isNew={isNew}></CandidateHeader>
+        <CardContent
+          fieldValues={{
+            languages: candidate.languages,
+            experiences: candidate.experiences,
+            salaryRange: candidate.salaryRange,
+            positions: candidate.positions,
+          }}
+          matchedTags={matchedTags[candidate.id]}
+        />
+      </div>
     </Card>
   );
 };

@@ -1,5 +1,5 @@
 import { useReducer, useMemo, useRef } from 'react';
-import { fieldDefinitions, fieldData } from '@/shared/data/fields.js';
+import { fieldDefinitions  } from '@/shared/data/fields.js';
 
 function buildInitialState(initial = {}) {
   return fieldDefinitions.reduce((acc, field) => {

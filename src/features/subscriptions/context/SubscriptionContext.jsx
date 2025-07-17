@@ -3,7 +3,29 @@ import React, { createContext, useContext, useState, useMemo } from 'react';
 const SubscriptionContext = createContext(null);
 
 export function SubscriptionProvider({ children }) {
-  const [subscriptions, setSubscriptions] = useState([]);
+  const initalSUb = [
+    {
+      languages: ['CSS', 'JavaScript', 'Python', 'NodeJS', 'ReactJS', 'NextJS', 'C++'],
+      positions: ['Full Stack', 'Front End', 'Back End'],
+      experiences: ['Junior', 'Mid Level', 'Senior', 'Principal'],
+      salaryRange: {
+        min: 40,
+        max: 50000
+      },
+      id: 'sub-1',
+    },
+    {
+      languages: ['JavaScript', 'NodeJS'],
+      positions: ['Front End'],
+      experiences: ['Mid Level'],
+      salaryRange: {
+        min: 40,
+        max: 50000
+      },
+      id: 'sub-2',
+    },
+  ]
+  const [subscriptions, setSubscriptions] = useState(initalSUb);
   const [selectedId, setSelectedId] = useState(null);
 
   const addSubscription = (newSub) => {
