@@ -14,7 +14,7 @@
 
   .tag-default {
     @apply
-      inline-flex items-center
+      inline-flex align-top
       h-6 w-fit
       px-3 py-1
       border border-[#C3C8CD]
@@ -25,7 +25,7 @@
 
   .tag-match {
     @apply
-      inline-flex items-center
+      inline-flex align-top
       h-6 w-fit
       px-3 py-1
       border border-[#008B6E]
@@ -43,8 +43,6 @@
   }
   .card-default {
     @apply
-      w-[334px]
-      p-4
       border border-[#C3C8CD]
       bg-[#FFFFFF]
       rounded-[12px]
@@ -52,8 +50,6 @@
 
   .card-selected {
     @apply
-      w-[334px]
-      p-4
       border border-[#008B6E]
       bg-[#E8FAF6]
       rounded-[12px]

@@ -14,18 +14,26 @@ export default function SubscriptionList() {
         </div>
       </div>
     ) : (
-        <CardList
-          items={subscriptions}
-          heading={"Your subscriptions"}
-          renderItem={(sub) => (
-            <SubscriptionCard
-              key={sub.id}
-              subscription={sub}
-              selected={selectedSubscription?.id === sub.id}
-              onClick={() => selectSubscription(sub.id)}
-            />
-          )}
-        />
+        <div className="flex flex-col gap-2.25">
+          <div className="flex items-center justify-between">
+            <p className="text-heading-sm">Your Subscriptions</p>
+          </div>
+          <div className="w-full overflow-x-auto">
+            <div className="flex gap-4 w-fit">
+              <CardList
+                items={subscriptions}
+                renderItem={(sub) => (
+                  <SubscriptionCard
+                    key={sub.id}
+                    subscription={sub}
+                    selected={selectedSubscription?.id === sub.id}
+                    onClick={() => selectSubscription(sub.id)}
+                  />
+                )}
+              />
+            </div>
+          </div>
+        </div>
       )
   );
 }

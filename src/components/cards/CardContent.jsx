@@ -56,7 +56,7 @@ export default function CardContent({ fieldValues, matchedTags = {} }) {
           >
             <Label>{label}</Label>
             <div
-              className="flex flex-wrap gap-2"
+              className="flex flex-wrap gap-2 content-start"
               ref={el => (containerRefs.current[idx] = el)}
               data-field-idx={idx}
               style={heightStyle}

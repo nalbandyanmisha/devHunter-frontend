@@ -15,7 +15,7 @@ export default function SubscriptionSection({ onSubscriptionSelect }) {
       <div className="w-fit">
         <SubscriptionForm />
       </div>
-      <div className="flex flex-grow">
+      <div className="flex-1 min-w-0">
         <SubscriptionList />
       </div>
     </div>

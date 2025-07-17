@@ -24,6 +24,26 @@ export function SubscriptionProvider({ children }) {
       },
       id: 'sub-2',
     },
+    {
+      languages: ['JavaScript', 'NodeJS'],
+      positions: ['Front End'],
+      experiences: ['Mid Level'],
+      salaryRange: {
+        min: 40,
+        max: 50000
+      },
+      id: 'sub-3',
+    },
+    {
+      languages: ['JavaScript', 'NodeJS'],
+      positions: ['Front End'],
+      experiences: ['Mid Level'],
+      salaryRange: {
+        min: 40,
+        max: 50000
+      },
+      id: 'sub-4',
+    },
   ]
   const [subscriptions, setSubscriptions] = useState(initalSUb);
   const [selectedId, setSelectedId] = useState(null);
