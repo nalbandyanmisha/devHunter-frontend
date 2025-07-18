@@ -5,6 +5,13 @@ import path from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    host: true,       // needed for Docker
+    port: 3000,
+    proxy: {
+      '/api': 'http://backend:3001',  // internal Docker network
+    },
+  },
   plugins: [
     react(),
     tailwindcss(),
