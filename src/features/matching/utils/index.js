@@ -1,23 +1,30 @@
-const matchKeys = ['languages', 'positions', 'experiences'];
+const matchKeys = ['languages', 'position', 'experience'];
 
 export function getMatchedTags(candidate, subscription) {
   const matchedTagsByField = {};
 
   for (const key of matchKeys) {
-    const candidateValues = Array.isArray(candidate[key]) ? candidate[key] : [];
-    const subscriptionValues = Array.isArray(subscription[key]) ? subscription[key] : [];
+    const candidateValue = candidate[key];
+    const subscriptionValue = subscription[key];
 
-    matchedTagsByField[key] = candidateValues.filter(value =>
-      subscriptionValues.includes(value)
-    );
+    if (!candidateValue || !subscriptionValue) {
+      matchedTagsByField[key] = [];
+      continue;
+    }
+
+    const candidateTags = Array.isArray(candidateValue) ? candidateValue : [candidateValue];
+    const subscriptionTags = Array.isArray(subscriptionValue) ? subscriptionValue : [subscriptionValue];
+
+    matchedTagsByField[key] = candidateTags.filter(tag => subscriptionTags.includes(tag));
   }
 
-  const candidateRange = candidate.salaryRange;
-  const subRange = subscription.salaryRange;
+  // Handle salaryRange as a boolean match
+  const cSalary = candidate.salaryRange;
+  const sSalary = subscription.salaryRange;
 
   const isSalaryMatch =
-    candidateRange?.min >= subRange?.min &&
-    candidateRange?.max <= subRange?.max;
+    cSalary?.min >= sSalary?.min &&
+    cSalary?.max <= sSalary?.max;
 
   matchedTagsByField.salaryRange = isSalaryMatch;
 
@@ -25,20 +32,12 @@ export function getMatchedTags(candidate, subscription) {
 }
 
 export function isCandidateMatch(matchedTagsByField) {
-  return Object.values(matchedTagsByField).some(val =>
-    Array.isArray(val) ? val.length > 0 : val === true
-  );
-}
-
-export function getMatchingCandidates(candidates, subscription) {
-  if (!subscription) return [];
-
-  return candidates
-    .map(candidate => {
-      const matchedTagsByField = getMatchedTags(candidate, subscription);
-      if (!isCandidateMatch(matchedTagsByField)) return null;
-
-      return { ...candidate, matchedTagsByField };
-    })
-    .filter(Boolean);
+  for (const [key, match] of Object.entries(matchedTagsByField)) {
+    if (key === 'salaryRange') {
+      if (match === true) return true;
+    } else if (Array.isArray(match) && match.length > 0) {
+      return true;
+    }
+  }
+  return false;
 }

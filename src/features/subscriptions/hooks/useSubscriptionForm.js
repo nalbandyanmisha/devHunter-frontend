@@ -63,8 +63,8 @@ export function useSubscriptionForm(initial = {}) {
   }, []);
 
   return {
-    values: state,        // { languages, experiences, salaryRange, ... }
-    setters,              // { setLanguages, setExperiences, ... }
+    values: state,        // { languages, experience, salaryRange, ... }
+    setters,              // { setLanguages, setExperience, ... }
     updateField,          // updateField('salaryRange.min', 100000)
     resetForm,            // resets to initial
     fields: fieldDefinitions, // UI rendering config

@@ -2,7 +2,7 @@ import CardList from '@/components/cards/CardList';
 import SubscriptionCard from './SubscriptionCard';
 import { useSubscriptionContext } from '../context/SubscriptionContext';
 
-export default function SubscriptionList() {
+export default function SubscriptionList({ metadata}) {
   const { subscriptions, selectedSubscription, selectSubscription } = useSubscriptionContext();
 
   return (

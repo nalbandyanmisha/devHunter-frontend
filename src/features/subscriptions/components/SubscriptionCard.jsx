@@ -18,9 +18,9 @@ const SubscriptionCard = ({ subscription, selected, onClick }) => {
           <CardContent
             fieldValues={{
               languages: subscription.languages,
-              experiences: subscription.experiences,
+              experience: subscription.experience,
               salaryRange: subscription.salaryRange,
-              positions: subscription.positions,
+              position: subscription.position,
             }}
           />
         </div>

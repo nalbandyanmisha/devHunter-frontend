@@ -5,9 +5,9 @@ const SubscriptionContext = createContext(null);
 export function SubscriptionProvider({ children }) {
   const initalSUb = [
     {
-      languages: ['CSS', 'JavaScript', 'Python', 'NodeJS', 'ReactJS', 'NextJS', 'C++'],
-      positions: ['Full Stack', 'Front End', 'Back End'],
-      experiences: ['Junior', 'Mid Level', 'Senior', 'Principal'],
+      languages: ['CSS', 'JavaScript', 'NextJS', 'C++'],
+      position: ['Full Stack'],
+      experience: ['Junior'],
       salaryRange: {
         min: 40,
         max: 50000
@@ -16,8 +16,8 @@ export function SubscriptionProvider({ children }) {
     },
     {
       languages: ['JavaScript', 'NodeJS'],
-      positions: ['Front End'],
-      experiences: ['Mid Level'],
+      position: ['Front End'],
+      experience: ['Mid Level'],
       salaryRange: {
         min: 40,
         max: 50000
@@ -26,23 +26,13 @@ export function SubscriptionProvider({ children }) {
     },
     {
       languages: ['JavaScript', 'NodeJS'],
-      positions: ['Front End'],
-      experiences: ['Mid Level'],
+      position: ['Back End'],
+      experience: ['Architect'],
       salaryRange: {
         min: 40,
         max: 50000
       },
       id: 'sub-3',
-    },
-    {
-      languages: ['JavaScript', 'NodeJS'],
-      positions: ['Front End'],
-      experiences: ['Mid Level'],
-      salaryRange: {
-        min: 40,
-        max: 50000
-      },
-      id: 'sub-4',
     },
   ]
   const [subscriptions, setSubscriptions] = useState(initalSUb);

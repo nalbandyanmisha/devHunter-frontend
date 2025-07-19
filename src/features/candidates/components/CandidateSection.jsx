@@ -1,5 +1,4 @@
 import CandidateList from './CandidateList';
-import { useMatchingContext } from '@/features/matching/context/MatchingContext';
 
 
 export default function CandidateSection({ candidates }) {

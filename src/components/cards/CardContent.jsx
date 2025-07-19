@@ -3,35 +3,41 @@ import Tag from './../ui/Tag.jsx';
 import Label from './../ui/Label.jsx';
 import { fieldMetadata, fieldOrder } from '@/shared/data/fields.js';
 
+
+
 function combineFieldData(metadata, fieldOrder, fieldValues, matchedTags = {}) {
   return fieldOrder.map((key) => {
     const label = metadata[key]?.label ?? key;
     const value = fieldValues[key];
     const match = matchedTags[key];
 
+    // Special case for salary range
     if (key === 'salaryRange') {
       const min = value?.min ?? 0;
       const max = value?.max ?? 0;
       return {
         key,
         label,
-        values: [`${min} - ${max} AMD`],
-        variant: match === true ? 'match' : 'default',
+        tags: [{ value: `${min} - ${max} AMD`, variant: match === true ? 'match' : 'default' }],
       };
     }
-    const values = value ?? [];
-    const isMatch = match?.includes?.(values[0]) || values.some(v => match?.includes?.(v));
+
+    const valuesArray = Array.isArray(value) ? value : value ? [value] : [];
+    const matchedArray = Array.isArray(match) ? match : [];
 
     return {
       key,
       label,
-      values,
-      variant: isMatch ? 'match' : 'default',
+      tags: valuesArray.map((v) => ({
+        value: v,
+        variant: matchedArray.includes(v) ? 'match' : 'default',
+      })),
     };
   });
 }
 
 export default function CardContent({ fieldValues, matchedTags = {} }) {
+  console.log(matchedTags);
   const fields = combineFieldData(fieldMetadata, fieldOrder, fieldValues, matchedTags);
   const containerRefs = useRef([]);
   const [maxHeights, setMaxHeights] = useState([]);
@@ -47,7 +53,7 @@ export default function CardContent({ fieldValues, matchedTags = {} }) {
 
   return (
     <div className="grid gap-2">
-      {fields.map(({ key, label, values, variant }, idx) => {
+      {fields.map(({ key, label, tags }, idx) => {
         const heightStyle = maxHeights[idx] ? { height: maxHeights[idx] } : {};
         return (
           <div
@@ -61,9 +67,9 @@ export default function CardContent({ fieldValues, matchedTags = {} }) {
               data-field-idx={idx}
               style={heightStyle}
             >
-              {values.map((value, tagIdx) => (
-                <Tag variant={variant} key={tagIdx}>
-                  {value}
+              {tags.map((tag, tagIdx) => (
+                <Tag variant={tag.variant} key={tagIdx}>
+                  {tag.value}
                 </Tag>
               ))}
             </div>

@@ -3,12 +3,12 @@ import { useSubscriptionContext } from '../context/SubscriptionContext';
 import SubscriptionForm from './SubscriptionForm';
 import SubscriptionList from './SubscriptionList';
 
-export default function SubscriptionSection({ onSubscriptionSelect }) {
+export default function SubscriptionSection({ onSubscriptionSelect, metadata }) {
   const { selectedSubscription } = useSubscriptionContext([]);
 
   useEffect(() => {
     onSubscriptionSelect(selectedSubscription);
-  }, [selectedSubscription, onSubscriptionSelect]);
+  }, [selectedSubscription]);
 
   return (
     <div className="flex flex-rows-1 gap-20">
@@ -16,7 +16,7 @@ export default function SubscriptionSection({ onSubscriptionSelect }) {
         <SubscriptionForm />
       </div>
       <div className="flex-1 min-w-0">
-        <SubscriptionList />
+        <SubscriptionList metadata={metadata} />
       </div>
     </div>
   );

@@ -17,15 +17,15 @@ const SubscriptionForm = function() {
     fields,
     fieldData,
   } = useSubscriptionForm();
-  const { languages, experiences, positions, salaryRange } = fieldData;
+  const { languages, experience, position, salaryRange } = fieldData;
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     addSubscription({
       languages: values.languages,
-      experiences: values.experiences,
-      positions: values.positions,
+      experience: values.experience,
+      position: values.position,
       salaryRange: values.salaryRange,
     });
 
@@ -38,8 +38,8 @@ const SubscriptionForm = function() {
         <CheckboxMenu options={languages.options} selected={values.languages} onChange={setters.setLanguages}/>
       </MultiSelectDropDown>
 
-      <MultiSelectDropDown label={experiences.label}>
-        <CheckboxMenu options={experiences.options} selected={values.experiences} onChange={setters.setExperiences} />
+      <MultiSelectDropDown label={experience.label}>
+        <CheckboxMenu options={experience.options} selected={values.experience} onChange={setters.setExperience} />
       </MultiSelectDropDown>
 
       <div className="w-81.5 flex flex-col gap-1">
@@ -65,8 +65,8 @@ const SubscriptionForm = function() {
         </div>
       </div>
 
-      <MultiSelectDropDown label={positions.label}>
-        <CheckboxMenu options={positions.options} selected={values.positions} onChange={setters.setPositions} />
+      <MultiSelectDropDown label={position.label}>
+        <CheckboxMenu options={position.options} selected={values.position} onChange={setters.setPosition} />
       </MultiSelectDropDown>
 
       <Button >Create Subscription</Button>

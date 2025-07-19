@@ -1,10 +1,19 @@
 import { Logo } from '@/icons/index.jsx';
 import Button from '@/components/ui/Button.jsx';
-import { useCandidateContext } from '@/features/candidates/context/CandidateContext';
+import { generateCandidates } from '@/features/candidates/utils/generateCandidates';
+import { postCandidates } from '@/shared/api';
 
 
 const Header = () => {
-  const { generateMoreCandidates } = useCandidateContext();
+  const generateMoreCandidates = async () => {
+    const newCandidates = generateCandidates();
+
+    try {
+      await postCandidates(newCandidates);
+    } catch (error) {
+      console.error('Error during candidate generation:', error);
+    }
+  }
 
   return (
     <header className="w-full h-fit">
